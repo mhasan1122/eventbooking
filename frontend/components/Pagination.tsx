@@ -38,25 +38,25 @@ export function Pagination({
 
   return (
     <div className="flex flex-col items-center justify-between gap-3 px-4 py-3 sm:flex-row">
-      <p className="text-xs text-[#6B7280]">
-        Showing <span className="font-medium text-[#111827]">{from}–{to}</span> of{' '}
-        <span className="font-medium text-[#111827]">{total}</span> bookings
+      <p className="text-xs text-muted-foreground">
+        Showing <span className="font-semibold text-foreground">{from}–{to}</span> of{' '}
+        <span className="font-semibold text-foreground">{total}</span> bookings
       </p>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1.5">
         <Button
           type="button"
           variant="outline"
           size="sm"
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
-          className="h-8 w-8 border-[#E5E7EB] p-0 hover:bg-[#F3F4F6]"
+          className="h-8 w-8 p-0"
           aria-label="Previous page"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-5 w-5" />
         </Button>
         {getPageNumbers().map((p, i) =>
           p === '...' ? (
-            <span key={`ellipsis-${i}`} className="px-1 text-xs text-[#6B7280]">
+            <span key={`ellipsis-${i}`} className="px-1.5 text-sm text-muted-foreground">
               …
             </span>
           ) : (
@@ -66,10 +66,8 @@ export function Pagination({
               variant={p === page ? 'default' : 'outline'}
               size="sm"
               onClick={() => onPageChange(p as number)}
-              className={`h-8 w-8 p-0 text-xs ${
-                p === page
-                  ? 'bg-[#111827] text-white hover:bg-[#111827]/90'
-                  : 'border-[#E5E7EB] text-[#111827] hover:bg-[#F3F4F6]'
+              className={`h-8 w-8 p-0 text-sm ${
+                p === page ? 'bg-brand text-brand-foreground hover:bg-brand/90' : ''
               }`}
               aria-label={`Page ${p}`}
               aria-current={p === page ? 'page' : undefined}
@@ -84,10 +82,10 @@ export function Pagination({
           size="sm"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
-          className="h-8 w-8 border-[#E5E7EB] p-0 hover:bg-[#F3F4F6]"
+          className="h-8 w-8 p-0"
           aria-label="Next page"
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-5 w-5" />
         </Button>
       </div>
     </div>

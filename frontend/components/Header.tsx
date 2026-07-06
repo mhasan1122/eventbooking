@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Calendar, RefreshCw } from 'lucide-react';
+import { CalendarDays, RefreshCw, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
@@ -24,36 +24,40 @@ export function Header({ onRefresh, isRefreshing }: HeaderProps) {
   }, []);
 
   return (
-    <header className="border-b border-[#E5E7EB] bg-white">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4">
+    <header className="sticky top-0 z-40 border-b border-border/80 bg-surface/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 sm:px-8">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#E5E7EB] bg-[#F8FAFC]">
-            <Calendar className="h-5 w-5 text-[#111827]" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-brand-foreground shadow-md shadow-brand/25">
+            <CalendarDays className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-sm font-semibold leading-none text-[#111827]">
-              Event Booking Dashboard
-            </h1>
-            <p className="mt-0.5 text-xs text-[#6B7280]">
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-bold tracking-tight text-foreground">
+                Event Booking
+              </h1>
+              <span className="hidden items-center gap-1 rounded-full bg-brand-muted px-2 py-0.5 text-xs font-medium text-brand sm:inline-flex">
+                <Sparkles className="h-3 w-3" />
+                Dashboard
+              </span>
+            </div>
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Manage bookings and event availability
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden text-xs text-[#6B7280] sm:block">{today}</span>
+          <span className="hidden text-sm text-muted-foreground lg:block">{today}</span>
           <Button
             type="button"
             variant="outline"
-            size="sm"
+            size="default"
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="gap-1.5 border-[#E5E7EB] text-[#111827] hover:bg-[#F3F4F6]"
+            className="gap-2"
             aria-label="Refresh data"
           >
-            <RefreshCw
-              className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin' : ''}`}
-            />
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
         </div>

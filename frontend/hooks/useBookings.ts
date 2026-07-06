@@ -69,7 +69,7 @@ export function useBookingFilters() {
     eventId: 'all',
     status: 'all',
     page: 1,
-    limit: 10,
+    limit: 15,
   });
 
   const updateFilter = (key: keyof BookingFilters, value: string | number) => {
@@ -81,7 +81,7 @@ export function useBookingFilters() {
   };
 
   const resetFilters = () => {
-    setFilters({ search: '', eventId: 'all', status: 'all', page: 1, limit: 10 });
+    setFilters({ search: '', eventId: 'all', status: 'all', page: 1, limit: 15 });
   };
 
   return { filters, updateFilter, resetFilters };

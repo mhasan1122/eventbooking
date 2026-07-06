@@ -73,9 +73,15 @@ export default function DashboardPage() {
     <div className="flex min-h-screen flex-col">
       <Header onRefresh={handleRefresh} isRefreshing={isRefreshing} />
 
-      <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6">
+      <main className="mx-auto w-full max-w-[1500px] flex-1 px-5 py-8 sm:px-8">
+        {/* Overview */}
+        <section className="mb-8">
+          <h2 className="section-title">Overview</h2>
+          <p className="section-subtitle">Live snapshot of your events and bookings</p>
+        </section>
+
         {/* Stats */}
-        <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {eventsQuery.isLoading ? (
             <>
               <StatCardSkeleton />
@@ -90,16 +96,18 @@ export default function DashboardPage() {
                 value={eventsQuery.data?.total ?? 0}
                 description="Active events available"
                 icon={Ticket}
-                iconBgClassName="bg-[#F3F4F6]"
-                iconClassName="text-[#111827]"
+                iconBgClassName="bg-muted"
+                iconClassName="text-foreground"
+                accentClassName="bg-foreground"
               />
               <StatCard
                 label="Confirmed"
                 value={statsLoading ? '—' : (confirmedTotalQuery.data ?? 0)}
-                description="All bookings"
+                description="Successfully processed"
                 icon={CheckCircle2}
                 iconBgClassName="bg-green-50"
                 iconClassName="text-green-600"
+                accentClassName="bg-green-500"
               />
               <StatCard
                 label="Pending"
@@ -112,6 +120,7 @@ export default function DashboardPage() {
                 icon={Clock}
                 iconBgClassName="bg-blue-50"
                 iconClassName="text-blue-600"
+                accentClassName="bg-blue-500"
               />
               <StatCard
                 label="Failed"
@@ -120,13 +129,14 @@ export default function DashboardPage() {
                 icon={XCircle}
                 iconBgClassName="bg-red-50"
                 iconClassName="text-red-600"
+                accentClassName="bg-red-500"
               />
             </>
           )}
         </div>
 
         {/* Filters */}
-        <div className="mb-4">
+        <section className="mb-6">
           <BookingFiltersBar
             filters={filters}
             events={events}
@@ -135,10 +145,10 @@ export default function DashboardPage() {
             onRefresh={handleRefresh}
             isRefreshing={isRefreshing}
           />
-        </div>
+        </section>
 
         {/* Main Grid: Table + Form */}
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
           <div className="min-w-0 flex-1">
             <BookingTable
               bookings={displayedBookings}
@@ -151,9 +161,11 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="w-full lg:w-[340px] lg:shrink-0">
-            <BookingForm events={events} />
-          </div>
+          <aside className="w-full xl:w-[400px] xl:shrink-0">
+            <div className="xl:sticky xl:top-28">
+              <BookingForm events={events} />
+            </div>
+          </aside>
         </div>
       </main>
     </div>

@@ -17,9 +17,9 @@ interface BookingDetailsModalProps {
 
 function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-      <dt className="text-xs font-medium text-[#6B7280]">{label}</dt>
-      <dd className="text-sm text-[#111827] sm:text-right">{value}</dd>
+    <div className="flex flex-col gap-1.5 rounded-xl bg-muted/40 px-4 py-3 sm:flex-row sm:items-start sm:justify-between">
+      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>
+      <dd className="text-sm font-medium text-foreground sm:text-right">{value}</dd>
     </div>
   );
 }
@@ -41,7 +41,7 @@ export function BookingDetailsModal({
       <Dialog.Portal>
         <Dialog.Backdrop
           className={cn(
-            'fixed inset-0 z-50 bg-black/40 backdrop-blur-[1px]',
+            'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm',
             'data-open:animate-in data-open:fade-in-0',
             'data-closed:animate-out data-closed:fade-out-0'
           )}
@@ -49,17 +49,17 @@ export function BookingDetailsModal({
         <Dialog.Viewport className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <Dialog.Popup
             className={cn(
-              'relative w-full max-w-md rounded-xl border border-[#E5E7EB] bg-white shadow-lg',
+              'relative w-full max-w-lg rounded-2xl border border-border/80 bg-surface shadow-2xl',
               'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95',
               'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95'
             )}
           >
-            <div className="flex items-start justify-between border-b border-[#E5E7EB] px-5 py-4">
+            <div className="flex items-start justify-between border-b border-border/80 px-6 py-5">
               <div>
-                <Dialog.Title className="text-sm font-semibold text-[#111827]">
+                <Dialog.Title className="text-lg font-bold text-foreground">
                   Booking Details
                 </Dialog.Title>
-                <Dialog.Description className="mt-0.5 text-xs text-[#6B7280]">
+                <Dialog.Description className="mt-0.5 text-sm text-muted-foreground">
                   Full information for this booking
                 </Dialog.Description>
               </div>
@@ -68,8 +68,8 @@ export function BookingDetailsModal({
                   <Button
                     type="button"
                     variant="ghost"
-                    size="icon-sm"
-                    className="text-[#6B7280] hover:bg-[#F3F4F6] hover:text-[#111827]"
+                    size="icon"
+                    className="text-muted-foreground hover:text-foreground"
                     aria-label="Close"
                   >
                     <X className="h-4 w-4" />
@@ -78,11 +78,11 @@ export function BookingDetailsModal({
               />
             </div>
 
-            <dl className="space-y-4 px-5 py-4">
+            <dl className="space-y-3 px-6 py-5">
               <DetailRow
                 label="Booking Reference"
                 value={
-                  <code className="rounded bg-[#F3F4F6] px-1.5 py-0.5 font-mono text-xs">
+                  <code className="rounded-lg bg-muted px-2 py-1 font-mono text-sm">
                     {booking.bookingRef}
                   </code>
                 }
@@ -91,7 +91,13 @@ export function BookingDetailsModal({
               {eventDate && <DetailRow label="Event Date" value={eventDate} />}
               <DetailRow label="Customer" value={booking.customerName} />
               <DetailRow label="Email" value={booking.customerEmail} />
-              <DetailRow label="Seats" value={booking.seats} />
+              <DetailRow label="Seats Booked" value={booking.seats} />
+              {booking.event && (
+                <DetailRow
+                  label="Seats Remaining (event)"
+                  value={booking.event.remainingSeats}
+                />
+              )}
               <DetailRow
                 label="Status"
                 value={<StatusBadge status={booking.status} />}
@@ -100,7 +106,7 @@ export function BookingDetailsModal({
                 <DetailRow
                   label="Failure Reason"
                   value={
-                    <span className="text-red-600">{booking.failReason}</span>
+                    <span className="text-destructive">{booking.failReason}</span>
                   }
                 />
               )}
@@ -111,21 +117,17 @@ export function BookingDetailsModal({
               <DetailRow
                 label="Request ID"
                 value={
-                  <code className="break-all rounded bg-[#F3F4F6] px-1.5 py-0.5 font-mono text-xs">
+                  <code className="break-all rounded-lg bg-muted px-2 py-1 font-mono text-sm">
                     {booking.requestId}
                   </code>
                 }
               />
             </dl>
 
-            <div className="flex justify-end border-t border-[#E5E7EB] px-5 py-4">
+            <div className="flex justify-end border-t border-border/80 px-6 py-5">
               <Dialog.Close
                 render={
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="border-[#E5E7EB] text-[#111827] hover:bg-[#F3F4F6]"
-                  >
+                  <Button type="button" variant="outline" size="default" className="px-5">
                     Close
                   </Button>
                 }

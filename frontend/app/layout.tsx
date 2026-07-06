@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/Providers';
 import { Toaster } from '@/components/ui/sonner';
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' });
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+});
 
 export const metadata: Metadata = {
   title: 'Event Booking Dashboard',
@@ -17,11 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body
-        className="min-h-screen bg-[#F8FAFC] antialiased"
-        suppressHydrationWarning
-      >
+    <html lang="en" className={jakarta.variable} suppressHydrationWarning>
+      <body className="min-h-screen font-sans" suppressHydrationWarning>
         <Providers>
           {children}
           <Toaster position="top-right" richColors closeButton />

@@ -60,7 +60,7 @@ export function BookingForm({ events }: BookingFormProps) {
         seats: values.seats,
       });
       toast.success('Booking accepted', {
-        description: `Status: ${result.status} — Ref: ${result.bookingRef.slice(0, 8)}…`,
+        description: `Status: ${result.status} — Ref: ${result.bookingRef}`,
         duration: 5000,
       });
       reset({ eventId: '', customerName: '', customerEmail: '', seats: 1 });
@@ -79,20 +79,16 @@ export function BookingForm({ events }: BookingFormProps) {
   };
 
   return (
-    <div className="rounded-xl border border-[#E5E7EB] bg-white shadow-sm">
-      <div className="border-b border-[#E5E7EB] px-5 py-4">
-        <h2 className="text-sm font-semibold text-[#111827]">Create Booking</h2>
-        <p className="text-xs text-[#6B7280]">Fill in the details to book seats</p>
+    <div className="panel overflow-hidden">
+      <div className="panel-header bg-gradient-to-br from-brand-muted/60 to-transparent">
+        <h2 className="section-title">Create Booking</h2>
+        <p className="section-subtitle">Fill in the details to reserve seats</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-5" noValidate>
-        {/* Event */}
-        <div className="space-y-1.5">
-          <label
-            htmlFor="form-event"
-            className="block text-xs font-medium text-[#111827]"
-          >
-            Event <span className="text-red-500">*</span>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 p-6" noValidate>
+        <div className="space-y-2">
+          <label htmlFor="form-event" className="form-label">
+            Event <span className="text-destructive">*</span>
           </label>
           <Controller
             name="eventId"
@@ -104,7 +100,7 @@ export function BookingForm({ events }: BookingFormProps) {
               >
                 <SelectTrigger
                   id="form-event"
-                  className="h-9 w-full border-[#E5E7EB] text-sm focus:ring-[#111827]"
+                  className="h-9 w-full"
                   aria-describedby={errors.eventId ? 'event-error' : undefined}
                 >
                   <SelectValue placeholder="Select an event" />
@@ -120,64 +116,52 @@ export function BookingForm({ events }: BookingFormProps) {
             )}
           />
           {errors.eventId && (
-            <p id="event-error" className="text-xs text-red-500" role="alert">
+            <p id="event-error" className="form-error" role="alert">
               {errors.eventId.message}
             </p>
           )}
         </div>
 
-        {/* Customer Name */}
-        <div className="space-y-1.5">
-          <label
-            htmlFor="form-name"
-            className="block text-xs font-medium text-[#111827]"
-          >
-            Customer Name <span className="text-red-500">*</span>
+        <div className="space-y-2">
+          <label htmlFor="form-name" className="form-label">
+            Customer Name <span className="text-destructive">*</span>
           </label>
           <Input
             id="form-name"
             placeholder="e.g. Rahim Uddin"
             {...register('customerName')}
-            className="h-9 border-[#E5E7EB] text-sm placeholder:text-[#6B7280] focus-visible:ring-[#111827]"
+            className="h-9"
             aria-describedby={errors.customerName ? 'name-error' : undefined}
           />
           {errors.customerName && (
-            <p id="name-error" className="text-xs text-red-500" role="alert">
+            <p id="name-error" className="form-error" role="alert">
               {errors.customerName.message}
             </p>
           )}
         </div>
 
-        {/* Customer Email */}
-        <div className="space-y-1.5">
-          <label
-            htmlFor="form-email"
-            className="block text-xs font-medium text-[#111827]"
-          >
-            Email Address <span className="text-red-500">*</span>
+        <div className="space-y-2">
+          <label htmlFor="form-email" className="form-label">
+            Email Address <span className="text-destructive">*</span>
           </label>
           <Input
             id="form-email"
             type="email"
             placeholder="rahim@example.com"
             {...register('customerEmail')}
-            className="h-9 border-[#E5E7EB] text-sm placeholder:text-[#6B7280] focus-visible:ring-[#111827]"
+            className="h-9"
             aria-describedby={errors.customerEmail ? 'email-error' : undefined}
           />
           {errors.customerEmail && (
-            <p id="email-error" className="text-xs text-red-500" role="alert">
+            <p id="email-error" className="form-error" role="alert">
               {errors.customerEmail.message}
             </p>
           )}
         </div>
 
-        {/* Seats */}
-        <div className="space-y-1.5">
-          <label
-            htmlFor="form-seats"
-            className="block text-xs font-medium text-[#111827]"
-          >
-            Number of Seats <span className="text-red-500">*</span>
+        <div className="space-y-2">
+          <label htmlFor="form-seats" className="form-label">
+            Number of Seats <span className="text-destructive">*</span>
           </label>
           <Input
             id="form-seats"
@@ -186,31 +170,31 @@ export function BookingForm({ events }: BookingFormProps) {
             max={20}
             placeholder="1"
             {...register('seats', { valueAsNumber: true })}
-            className="h-9 border-[#E5E7EB] text-sm focus-visible:ring-[#111827]"
+            className="h-9"
             aria-describedby={errors.seats ? 'seats-error' : undefined}
           />
           {errors.seats && (
-            <p id="seats-error" className="text-xs text-red-500" role="alert">
+            <p id="seats-error" className="form-error" role="alert">
               {errors.seats.message}
             </p>
           )}
         </div>
 
-        {/* Submit */}
         <Button
           type="submit"
           disabled={isPending || events.length === 0}
-          className="mt-2 h-9 w-full gap-2 bg-[#111827] text-sm text-white hover:bg-[#111827]/90 disabled:opacity-60"
+          size="default"
+          className="mt-2 h-9 w-full gap-2 bg-brand text-sm text-brand-foreground hover:bg-brand/90"
           aria-label="Submit booking"
         >
           {isPending ? (
             <>
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
               Submitting…
             </>
           ) : (
             <>
-              <Plus className="h-3.5 w-3.5" />
+              <Plus className="h-4 w-4" />
               Submit Booking
             </>
           )}
