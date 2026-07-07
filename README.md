@@ -109,15 +109,16 @@ cd backend && npm run seed
 ## Tests
 
 ```bash
-cd backend && npm test
+cd backend && npm test          # unit tests
+cd backend && npm run test:e2e  # HTTP integration tests (requires Postgres + Redis + seed data)
 ```
 
-Unit tests cover booking creation idempotency and queue processor seat logic.
+Unit tests cover booking creation idempotency and queue processor seat logic. E2E tests exercise the full HTTP flow: `POST /bookings` → async processing → `GET /bookings` filtering.
 
 ## What I Would Improve With More Time
 
 - **Docker Compose** for PostgreSQL + Redis (one-command local setup)
-- **E2E tests** with a real database and concurrent booking load test
+- **Concurrent load test** proving no overbooking under parallel requests
 - **GET /bookings/:ref** endpoint for single-booking lookup
 - **Synchronous validation** of `eventId` on POST (currently fails async in worker)
 - **WebSocket or SSE** instead of polling for status updates on the frontend
